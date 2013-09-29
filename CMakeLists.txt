@@ -3,9 +3,11 @@ project (cpp11_examples)
 
 set( CMAKE_VERBOSE_MAKEFILE on)
 
-#message("test:","${PROJECT_SOURCE_DIR}/src/Lock/CMutex.cpp")
+#message("test:","${PROJECT_SOURCE_DIR}")
 
 add_definitions(-g -Wall -Werror -std=c++11)
+
+add_subdirectory(corso)
 
 include_directories("${PROJECT_SOURCE_DIR}")
 
@@ -25,5 +27,3 @@ target_link_libraries( ${FILENAME} pthread )
 set(FILENAME get_id)
 add_executable(${FILENAME} 3th_party_examples/thread/${FILENAME}.cpp)
 target_link_libraries( ${FILENAME} pthread )
-
-
