@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 bool is_identifier(const std::string& s)
 {
 	regex pat{R"([_[:alpha:]]\w*)"};
