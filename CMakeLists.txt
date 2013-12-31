@@ -5,7 +5,7 @@ set( CMAKE_VERBOSE_MAKEFILE on)
 
 #message("test:","${PROJECT_SOURCE_DIR}")
 
-add_definitions(-g -Wall -Werror -std=c++11)
+add_definitions(-g -Wextra -Wall -Werror -std=c++11)
 
 add_subdirectory(corso)
 
@@ -17,6 +17,7 @@ add_executable(03_range_for   03_range_for/main.cpp)
 add_executable(04_right_angle_brackets   04_right_angle_brackets/main.cpp)
 add_executable(07_enum_class 07_enum_class/main.cpp)
 add_executable(08_constexpr 08_constexpr/main.cpp)
+add_executable(XX_01_regex XX_01_regex/main.cpp)
 add_executable(simple 3th_party_examples/thread/simple.cpp)
 target_link_libraries( simple pthread)
 
