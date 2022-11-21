@@ -4,3 +4,5 @@ build
 .autotools
 .~*
 *~
+.idea
+cmake-build*

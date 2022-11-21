@@ -7,6 +7,8 @@ set( CMAKE_VERBOSE_MAKEFILE on)
 
 add_definitions(-g -Wextra -Wall -Werror -std=c++11)
 
+add_subdirectory(MapAndSet)
+
 add_subdirectory(corso)
 
 include_directories("${PROJECT_SOURCE_DIR}")
