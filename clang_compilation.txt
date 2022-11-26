@@ -1,2 +1,0 @@
-env CC=clang CXX=clang++ CXXFLAGS="-I/usr/local/include/c++/v1/" LDFLAGS=-lc++ cmake ../
-

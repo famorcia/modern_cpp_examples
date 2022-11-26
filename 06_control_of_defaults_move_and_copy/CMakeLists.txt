@@ -14,4 +14,4 @@
 #  with this program; if not, write to the Free Software Foundation, Inc.,
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-add_executable(Example_01 main.cpp complex.cpp)
+add_executable(06_control_of_defaults_move_and_copy main.cpp)
