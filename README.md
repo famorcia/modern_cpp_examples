@@ -1,4 +1,6 @@
 # Modern C++ Examples
+[![CMake](https://github.com/famorcia/modern_cpp_examples/actions/workflows/cmake.yml/badge.svg)](https://github.com/famorcia/modern_cpp_examples/actions/workflows/cmake.yml)
+[![CodeQL](https://github.com/famorcia/modern_cpp_examples/actions/workflows/codeql.yml/badge.svg)](https://github.com/famorcia/modern_cpp_examples/actions/workflows/codeql.yml)
 
 Modern C++ examples is set of self-contained examples for playing with cpp.
 
