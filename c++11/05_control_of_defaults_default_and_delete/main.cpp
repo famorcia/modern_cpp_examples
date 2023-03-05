@@ -30,35 +30,61 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
 #include <iostream>
-#include <mutex>
+
+class X
+{
+public:
+  // ...
+  //
+  X ()  {
+  }
+  X &operator= (const X &) = delete;	// Disallow copying
+  X (const X &) = delete;
+};
+
+class Y
+{
+public:
+  //                 // ...
+  Y ()  {
+  }
+  Y & operator= (const Y &) = default;
+  // default copy semantics
+  Y (const Y &) = default;
+};
+
+
+struct Z
+{
+  // ...
+  //
+  explicit Z (long long) {
+      // can initialize with a long long
+  }
+  Z (long) = delete; // but not anything less
+};
+
 
 using namespace std;
 
-std::mutex g_display_mutex;
+int main () {
+  X a, b;
+  /* Can not be done deleted
+  X a1 (a);
+  b = a;
+  //*/
 
-void f()
-{
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
-}
+  Y c, d;
+  Y c1 (c);
+  d = c;
 
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
-    }
-};
+  long long ll1=0;
+  Z zll(ll1);
+  /* Can not be done deleted
+  long l1=0;
+  Z zl(l1);
+  //*/
 
-int main()
-{
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
+  return (0);
 }

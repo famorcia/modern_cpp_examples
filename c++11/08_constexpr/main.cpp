@@ -30,35 +30,66 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
 #include <iostream>
-#include <mutex>
-
 using namespace std;
 
-std::mutex g_display_mutex;
+enum Flags
+{ good = 0, fail = 1, bad = 2, eof = 4 , bad_eof = 6 };
 
-void f()
+constexpr int
+operator| (Flags f1, Flags f2)
 {
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
+  return Flags (int (f1) | int (f2));
 }
 
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
-    }
-};
-
-int main()
+void
+f1 (Flags x)
 {
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
+  switch (x)
+    {
+    case bad:			/* ... */
+      break;
+    case eof:			/* ... */
+      break;
+    case bad | eof:		/* ... */
+      break;
+    default:			/* ... */
+      break;
+    }
+}
+
+constexpr int x1 = bad | eof;	// ok
+
+void
+f2 (Flags f3)
+{
+  // constexpr int x2 = bad|f3;   // error: can't evaluate at compile time
+  int x3 = bad | f3;		// ok
+  --x3;
+  x3 += 1;
+}
+
+int
+main ()
+{
+
+  int return_val = 0;
+
+
+  struct Point
+  {
+    int x, y;
+    constexpr Point (int xx, int yy):x (xx), y (yy)
+    {
+    }
+  };
+
+  constexpr Point origo (0, 0);
+  constexpr int z = origo.x;
+  return_val = z;
+  constexpr Point a[] = { Point (0, 0), Point (1, 1), Point (2, 2) };
+  constexpr int x = a[1].x;	// x becomes 1
+  if (z > x)
+    return_val = x;
+  return return_val;
 }

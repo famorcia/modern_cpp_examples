@@ -30,35 +30,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
-#include <iostream>
-#include <mutex>
+#ifndef MAPANDSET_UTILS_H
+#define MAPANDSET_UTILS_H
 
-using namespace std;
+#include <string>
+#include <sstream>
 
-std::mutex g_display_mutex;
-
-void f()
-{
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
+inline
+std::string buildAnId(const std::string& prefix,
+                      int id) {
+    std::ostringstream oss;
+    oss<<prefix;
+    oss<<id;
+    return (oss.str());
 }
 
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
+
+template <typename T>
+void freeMap(T &t) {
+    typedef typename T::iterator MapIterator;
+    MapIterator it = t.begin();
+    MapIterator end = t.end();
+    for(;it!=end;++it) {
+        delete it->second; it->second = 0;
     }
-};
-
-int main()
-{
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
+    t.clear();
 }
+
+template <typename T>
+void freeSet(T &t) {
+    typedef typename T::iterator MapIterator;
+    MapIterator it = t.begin();
+    MapIterator end = t.end();
+    for(;it!=end;++it) {
+        delete *it;
+    }
+    t.clear();
+}
+
+
+#endif //MAPANDSET_UTILS_H

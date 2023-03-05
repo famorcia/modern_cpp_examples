@@ -30,35 +30,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
-#include <iostream>
-#include <mutex>
+#ifndef MAPANDSET_MYBEAUTIFULOBJECT_H
+#define MAPANDSET_MYBEAUTIFULOBJECT_H
 
-using namespace std;
+class MyBeautifulObject {
+    static int counter;
+    int id;
+public:
+    MyBeautifulObject();
 
-std::mutex g_display_mutex;
+    // This is not virtual, what does it imply?
+    ~MyBeautifulObject();
 
-void f()
-{
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
-}
-
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
-    }
+    // What effect do we obtain if we had move in private?
+    MyBeautifulObject(const MyBeautifulObject& ob);
+    MyBeautifulObject& operator=(const MyBeautifulObject& ob);
 };
 
-int main()
-{
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
-}
+#endif //MAPANDSET_MYBEAUTIFULOBJECT_H

@@ -1,0 +1,12 @@
+set (CMAKE_CXX_STANDARD 11)
+
+add_subdirectory(01_cplusplus)
+add_subdirectory(02_auto)
+add_subdirectory(03_range_for)
+add_subdirectory(04_right_angle_brackets)
+add_subdirectory(05_control_of_defaults_default_and_delete)
+add_subdirectory(06_control_of_defaults_move_and_copy)
+add_subdirectory(07_enum_class)
+add_subdirectory(08_constexpr)
+
+add_subdirectory(MapAndSet)

@@ -30,35 +30,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
+#include "MyBeautifulObject.h"
+
 #include <iostream>
-#include <mutex>
 
-using namespace std;
 
-std::mutex g_display_mutex;
+int MyBeautifulObject::counter = 0;
 
-void f()
-{
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
+MyBeautifulObject::MyBeautifulObject():id(++counter) {
+    std::cout<<"["<<id<<"]: MyBeautifulObject()"<<std::endl;
+}
+MyBeautifulObject::~MyBeautifulObject(){
+    std::cout<<"["<<id<<"]: ~MyBeautifulObject()"<<std::endl;
 }
 
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
+MyBeautifulObject::MyBeautifulObject(const MyBeautifulObject& ob) {
+    if(this != &ob) {
+        id = ob.id;
+        std::cout << "[" << id << "]: MyBeautifulObject(const MyBeautifulObject& ob)" << std::endl;
     }
-};
+}
 
-int main()
-{
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
+MyBeautifulObject& MyBeautifulObject::operator=(const MyBeautifulObject& ob) {
+    if(this != &ob) {
+        id = ob.id;
+        std::cout << "[" << id << "]: operator=(const MyBeautifulObject& ob)" << std::endl;
+    }
+    return (*this);
 }

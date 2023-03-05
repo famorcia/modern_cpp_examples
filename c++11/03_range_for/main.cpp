@@ -30,35 +30,91 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
 #include <iostream>
-#include <mutex>
-
+#include <vector>
 using namespace std;
 
-std::mutex g_display_mutex;
-
-void f()
+class my_class
 {
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
+	vector<int> v_;
+	typedef	vector<int>::iterator iterator;
+public:
+	my_class()
+	{
+		v_.push_back(-1);
+		v_.push_back( 0);
+		v_.push_back( 1);
+	}
+
+	iterator begin()
+	{
+		return v_.begin();
+	}
+
+	iterator end()
+	{
+		return v_.end();
+	}
+
+};
+
+
+class my_class_2
+{
+	vector<int> v_;
+
+public:
+	typedef	vector<int>::iterator iterator;
+	my_class_2()
+	{
+		v_.push_back(-1);
+		v_.push_back( 0);
+		v_.push_back( 1);
+	}
+
+	iterator begin_2()
+	{
+		return v_.begin();
+	}
+
+	iterator end_2()
+	{
+		return v_.end();
+	}
+
+};
+
+my_class_2::iterator begin( my_class_2& mc2)
+{
+	return mc2.begin_2();
 }
 
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
-    }
-};
+my_class_2::iterator end( my_class_2& mc2)
+{
+	return mc2.end_2();
+}
+
 
 int main()
 {
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
+	vector<int> v;
+	v.push_back(1);
+	v.push_back(2);
+	v.push_back(3);
+	v.push_back(4);
+
+	for( auto x:v ) cout<<x<<endl;
+
+	my_class a;
+	for( auto x:a ) cout<<x<<endl;
+
+	my_class_2 a2;
+	for( auto x:a2 ) cout<<x<<endl;
+
+        //*
+        // not supporte yet??
+	for (const auto x : { 1,2,3,5,8,13,21,34 }) cout << x << '\n';
+        // */
+       
+	return (0);
 }

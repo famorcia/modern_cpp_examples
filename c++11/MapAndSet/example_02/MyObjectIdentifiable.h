@@ -30,35 +30,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
-#include <iostream>
-#include <mutex>
+#ifndef MAPANDSET_MYOBJECTIDENTIFIABLE_H
+#define MAPANDSET_MYOBJECTIDENTIFIABLE_H
 
-using namespace std;
+#include <string>
 
-std::mutex g_display_mutex;
+class MyObjectIdentifiable {
 
-void f()
-{
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
-}
+    std::string id;
+public:
+    MyObjectIdentifiable(const std::string& anId);
 
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
-    }
+    // Why const at the end?
+    const std::string& getId() const;
+
 };
 
-int main()
-{
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
-}
+
+#endif //MAPANDSET_MYOBJECTIDENTIFIABLE_H

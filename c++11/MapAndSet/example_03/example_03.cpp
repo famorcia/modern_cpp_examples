@@ -30,35 +30,61 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
+/*
+ * How to remove element while cycling.
+ */
+
+#include "common/Utils.h"
+
+#include <map>
 #include <iostream>
-#include <mutex>
+#include <cassert>
 
-using namespace std;
+struct MyData {
 
-std::mutex g_display_mutex;
-
-void f()
-{
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
-}
-
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
-    }
 };
 
-int main()
-{
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
+typedef std::map<std::string, MyData> MyDataMap;
+
+const size_t DATA_MAP_SIZE = 10;
+
+void fillMap(MyDataMap& dataMap) {
+    for(size_t i=0; i<DATA_MAP_SIZE; ++i) {
+        std::ostringstream oss;
+        oss<<i;
+        dataMap[oss.str()] = MyData();
+    }
+}
+
+int main() {
+
+    MyDataMap dataMap;
+    fillMap(dataMap);
+    assert(dataMap.size() ==  DATA_MAP_SIZE);
+
+    MyDataMap::iterator it = dataMap.begin();
+    MyDataMap::iterator end = dataMap.end();
+
+    for (; it != end; ) {
+        std::cout<<"Data["<<it->first<<"]"<<std::endl;
+        if ( it->first == "4" ) {
+            std::cout<<it->first<<" removed!"<<std::endl;
+            // note postfix
+            dataMap.erase(it++);
+        }
+        else {
+            // note prefix
+            ++it;
+        }
+    }
+
+    assert(dataMap.size() == DATA_MAP_SIZE-1);
+
+    std::cout<<"Print again the DataMap."<<std::endl;
+    it = dataMap.begin();
+    for (; it != end; ++it) {
+        std::cout<<"Data["<<it->first<<"]"<<std::endl;
+    }
+
+    return (0);
 }

@@ -30,35 +30,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
+/*
+ * Is a map required?
+ */
+
+// In include order "internal include" go ahead
+#include "MyObjectIdentifiable.h"
+#include "common/Utils.h"
+
+// Last element are "standard"
+#include <map>
 #include <iostream>
-#include <mutex>
 
-using namespace std;
+int main() {
+    const int maxElements = 10;
+    const std::string elementPrefix = "Hello_";
+    std::map<std::string, MyObjectIdentifiable*> myBeautifulMap;
+    for(int i=0;i<maxElements;++i) {
+        std::string id = buildAnId(elementPrefix, i);
+        std::cout<<"I'm adding:"<<id<<std::endl;
 
-std::mutex g_display_mutex;
-
-void f()
-{
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
-}
-
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
+        MyObjectIdentifiable* myObject = new MyObjectIdentifiable(id);
+        myBeautifulMap[id] = myObject;
     }
-};
 
-int main()
-{
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
+    freeMap(myBeautifulMap);
+
+    return (0);
 }

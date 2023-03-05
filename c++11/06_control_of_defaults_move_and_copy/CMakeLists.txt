@@ -1,0 +1,2 @@
+
+add_executable(06_control_of_defaults_move_and_copy main.cpp)

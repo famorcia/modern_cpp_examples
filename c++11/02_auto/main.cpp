@@ -30,35 +30,74 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <thread>
+#include <vector>
+#include <string>
 #include <iostream>
-#include <mutex>
+#include <typeinfo>
 
 using namespace std;
 
-std::mutex g_display_mutex;
-
-void f()
+template<class T> void printall(const vector<T>& v)
 {
-    g_display_mutex.lock();
-    cerr<<"f piccolo"<<endl;
-    g_display_mutex.unlock();
+	for (auto p = v.begin(); p!=v.end(); ++p)
+		cout << *p << "\n";
+}
+/*
+ * The same as before, but before c++11
+	template<class T> void printall(const vector<T>& v)
+	{
+		for (typename vector<T>::const_iterator p = v.begin(); p!=v.end(); ++p)
+			cout << *p << "\n";
+	}
+ */
+
+template<class T, class U> void multiply(const vector<T>& vt, const vector<U>& vu)
+{
+	//
+	int min_size = min(vt.size(),vu.size());
+	for(int i=0;i<min_size;++i)
+	{
+		auto tmp = vt[i]*vu[i];
+		// ...
+		cout<<"typeinfo says that vt[0] is:"<<typeid(vt.front()).name()<<endl;
+		cout<<"typeinfo says that vu[0] is:"<<typeid(vu.front()).name()<<endl;
+		cout<<"typeinfo says that auto  is:"<<typeid(tmp).name()<<endl;
+
+		cout<<"product is:"<<tmp<<endl;
+	}
 }
 
-struct F {
-    void operator()()
-    {
-        g_display_mutex.lock();
-        cerr<<"F GRANDE"<<endl;
-        g_display_mutex.unlock();
-    }
-};
+class MyClass{};
+
+MyClass returnMyClass()
+{
+	return MyClass();
+}
 
 int main()
 {
-    thread t1(f); // f() executes in separate thread
-    F f1;
-    thread t2(f1); // F()() executes in separate thread
-    t1.join();
-    t2.join();
+	{
+		auto x = 7;
+		cout<<"typeinfo says that x in 'auto x = 7;' is:"<<typeid(x).name()<<endl;
+	}
+	{
+		auto x = returnMyClass();
+		cout<<"typeinfo says that x in 'auto x = returnMyClass();' is:"<<typeid(x).name()<<endl;
+	}
+
+	vector<int> vt;
+	vt.push_back(1);
+	vt.push_back(2);
+	vt.push_back(3);
+
+	printall(vt);
+
+	vector<double> vu;
+	vu.push_back(3.0);
+	vu.push_back(2.0);
+	vu.push_back(1.0);
+
+	multiply(vu,vt);
+
+	return 0;
 }

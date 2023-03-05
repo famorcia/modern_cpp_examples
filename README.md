@@ -1,6 +1,6 @@
-# c11-examples
+# Modern C++ Examples
 
-C++ 11 examples is set of self-contained examples for playing with cpp
+Modern C++ examples is set of self-contained examples for playing with cpp.
 
 ## Compiler settings
 In Linux environment you could use the env CC and CXX for changing compiler type.

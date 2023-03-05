@@ -1,0 +1,2 @@
+
+add_executable(05_control_of_defaults_default_and_delete main.cpp)
