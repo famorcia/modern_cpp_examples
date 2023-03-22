@@ -19,15 +19,15 @@
 #include <iostream>
 
 struct A1 {
-	virtual std::string fn() const = 0;
+	virtual const char* fn() const = 0;
 };
 
 struct A2 : public A1{
-	virtual std::string fn() const { return  "A2";};
+	virtual const char* fn() const { return  "A2";};
 };
 
 struct A3 : public A2{
-	constexpr virtual std::string fn() const { return  "A3";};
+	constexpr virtual const char* fn() const { return  "A3";};
 };
 
 int main()
