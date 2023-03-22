@@ -18,16 +18,35 @@
 
 #include <iostream>
 
-template <class T>
-constexpr T pi = T(3.14);
+template<typename T>
+concept integral = std::is_integral_v<T>;
+
+template<typename T>
+concept unsigned_integral = std::is_integral_v<T> && !std::is_signed_v<T>;
+
+template<integral T>
+T sum(T a, T b){
+	return a+b;
+}
+
+template<typename T>
+requires unsigned_integral<T>
+T product(T a, T b){
+	return a*b;
+}
+
 
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	auto sum_resutl = sum(-10,20);
+
+	unsigned int a = 10;
+	unsigned int b = 20;
+	//auto product_result = product(10,20);  Does not compile, deduced type is int and is a signed type
+	auto product_result = product(a,b);
+
+	std::cout << "Sum Result: " << sum_resutl << std::endl;
+	std::cout << "Product Result: " << product_result << std::endl;
+	
+	return 0;
 }

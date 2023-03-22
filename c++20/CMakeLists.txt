@@ -16,16 +16,20 @@
 
 cmake_minimum_required (VERSION 3.0)
 
-set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wextra -Wall -Werror")
 
 
-add_subdirectory(01_template_argument_deduction)
-add_subdirectory(02_folding_expression)
-add_subdirectory(03_structured_bindings)
-add_subdirectory(04_variant_optional_any)
-add_subdirectory(05_string_view)
-add_subdirectory(06_math_utils)
+add_subdirectory(01_coroutines)
+add_subdirectory(02_concepts)
+add_subdirectory(03_designated_initializers)
+add_subdirectory(04_template_lambda)
+add_subdirectory(05_range_based_for_loop_with_initializer)
+add_subdirectory(06_likely_unlikely)
+add_subdirectory(07_constexpr_virtual_function)
+add_subdirectory(08_consteval_constinit)
+add_subdirectory(09_synch_out_buffer)
+add_subdirectory(10_span)
 
 
 

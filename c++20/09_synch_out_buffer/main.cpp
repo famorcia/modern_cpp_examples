@@ -17,17 +17,31 @@
  */
 
 #include <iostream>
-
-template <class T>
-constexpr T pi = T(3.14);
+#include <syncstream>
+#include <future>
+#include <vector>
+#include <thread>
+#include <atomic>
 
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	std::atomic_int counter = 0;
+
+	auto print_and_increment = [&counter]()
+	{ 
+		auto th_id = std::this_thread::get_id();
+		for( int j = 0; j< 10000; j++){
+			std::osyncstream(std::cout) << "Thread ID: " << th_id << " value of counter is:" << counter++ << std::endl;
+		}
+	};
+	std::vector<std::future<void>> results;
+	for(int i = 0; i< 5; i++){
+		results.push_back(std::async(std::launch::async, print_and_increment));
+	}
+
+	for(auto& elem : results){
+		elem.wait();
+	}
+
+	return 0;
 }

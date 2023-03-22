@@ -17,17 +17,24 @@
  */
 
 #include <iostream>
+#include <span>
+#include <vector>
+#include <array>
+#include <list>
 
-template <class T>
-constexpr T pi = T(3.14);
+int sum_collection(std::span<const int> int_collection){
+	int result = 0;
+	for (const auto& elem : int_collection){
+		result += elem;
+	}
+	return result;
+}
 
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	std::cout << "Sum of Vector: " << sum_collection(std::vector<int> { 1, 2, 3 }) << std::endl;
+	std::cout << "Sum of Array: " << sum_collection(std::array<int, 5>{ 1, 2, 3}) << std::endl;
+	// std::cout << "Sum of List: " << sum_collection(std::list<int>{ 1, 2, 3}) << std::endl;	Not allowed because not contiguos memory
+
+	return 0;
 }

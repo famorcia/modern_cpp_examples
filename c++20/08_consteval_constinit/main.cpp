@@ -18,16 +18,29 @@
 
 #include <iostream>
 
-template <class T>
-constexpr T pi = T(3.14);
+consteval int sum(int a, int b){
+	return a+b;
+}
+
+constexpr int fn_int(){
+	return 1;
+}
+
+int fn_int2(){
+	return 2;
+}
+
+constinit int myInt = fn_int();
+//constinit int myInt = fn_int2(); Not allowed because fn_int2 is not constexpr, so cannot be evaluated at compile time
 
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	constexpr int mySum = sum(10,20);
+	//int x = 10;
+	//int y = 20;
+	//int mySum = sum(x,y); Not Allowed because x and y cannot be used in constant expression
+
+	std::cout << "mySum: " << mySum << std::endl;
+	std::cout << "myInt: " << myInt << std::endl;
+	
 }

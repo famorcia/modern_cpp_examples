@@ -18,16 +18,16 @@
 
 #include <iostream>
 
-template <class T>
-constexpr T pi = T(3.14);
+struct TEST{
+	double x;
+	double y;
+	int i = 1;
+};
+
 
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	TEST test {.x = 1.23, .y = 3.14};
+	std::cout << "TEST: \n" << "\t x = " << test.x << "\n" << "\t y = " << test.y << "\n" << "\t i = " << test.i << "\n" << std::endl;
+	return 0;
 }

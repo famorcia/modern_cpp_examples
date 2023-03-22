@@ -17,17 +17,23 @@
  */
 
 #include <iostream>
-
-template <class T>
-constexpr T pi = T(3.14);
+#include <string>
+#include <regex>
 
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	std::string std_str = "    this is a standard string! ";
+	std::cout << "Original String \"" << std_str << "\"" << std::endl;
+	//assign to string view 
+	std::string_view std_str_vw {std_str};
+	std::cout << "Original String View \"" << std_str_vw << "\"" << std::endl;
+	//remove blanks at start 
+	std_str_vw.remove_prefix(std::min(std_str_vw.find_first_not_of(" "), std_str_vw.size()));
+	std::cout << "Trim begin of String View \"" << std_str_vw << "\"" << std::endl;
+	//Recast to string
+	std_str = std::string(std_str_vw);
+	std::cout << "Recasted String \"" << std_str << "\"" << std::endl;
+
+	
+
 }

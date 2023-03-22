@@ -18,16 +18,22 @@
 
 #include <iostream>
 
-template <class T>
-constexpr T pi = T(3.14);
+struct A1 {
+	virtual std::string fn() const = 0;
+};
+
+struct A2 : public A1{
+	virtual std::string fn() const { return  "A2";};
+};
+
+struct A3 : public A2{
+	constexpr virtual std::string fn() const { return  "A3";};
+};
 
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	A2 a2;
+	constexpr A3 a3;
+	std::cout << a2.fn() << std::endl;
+	std::cout << a3.fn() << std::endl;
 }

@@ -17,17 +17,18 @@
  */
 
 #include <iostream>
-
-template <class T>
-constexpr T pi = T(3.14);
-
+#include <vector>
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	for(auto v = std::vector{1,2,4,5}; auto& elem : v){
+		std::cout << elem << ";;";
+	}
+	std::cout << std::endl;
+
+	for(auto v = std::vector{"Tom","Jerry","Cartoon"}; auto& elem : v){
+		std::cout << elem << ";;";
+	}
+	std::cout << std::endl;
+
+	return 0;
 }

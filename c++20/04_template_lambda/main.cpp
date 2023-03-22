@@ -17,17 +17,25 @@
  */
 
 #include <iostream>
+#include <vector>
 
-template <class T>
-constexpr T pi = T(3.14);
+std::vector<int> v1 = {2,3,4,5,6};
+std::vector<std::string> v2 = {"Tom","Jerry","cartoon"};
 
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	auto fn_print_array = []<typename T>(std::vector<T> v){
+		for(auto it : v){
+			std::cout << it << ";;" ;
+		}
+		std::cout << std::endl;
+	};
+
+
+
+	fn_print_array(v1);
+	fn_print_array(v2);
+	
+	return 0;
+
 }

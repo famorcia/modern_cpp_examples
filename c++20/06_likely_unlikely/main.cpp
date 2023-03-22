@@ -18,16 +18,25 @@
 
 #include <iostream>
 
-template <class T>
-constexpr T pi = T(3.14);
-
 int main()
 {
-	auto x = pi<double>; // x of type double
-	float y = pi<float>; // s of type float
-	int z = pi<int>; // s of type float
-	std::cout << "x : " << x  << " of type: " << typeid(x).name() << std::endl;
-	std::cout << "y : " << y << " of type: " << typeid(y).name() << std::endl;
-	std::cout << "z : " << z << " of type: " << typeid(z).name() << std::endl;
-	return (0);
+	for( int i = 0;  i < 15; i++){
+		if(i < 10 )[[likely]]{
+			std::cout << "Minor" << std::endl;
+		}else{
+			std::cout << "Major" << std::endl;
+		}
+	}
+
+	int n = 55;
+	switch (n){
+		case 32:
+			break;
+		[[unlikely]]case 34:
+			break;
+		case 55:
+			break;
+	}
+
+	return 0;
 }
